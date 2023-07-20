@@ -1,8 +1,8 @@
 import Board from "./components/Board";
-import { setState } from "react";
+import { useState } from "react";
 
 function App() {
-  const [squares, setSquares] = setState([]);
+  const [squares, setSquares] = useState([]);
 
   const handleSquares = () => {};
 
