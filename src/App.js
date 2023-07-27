@@ -1,12 +1,18 @@
 import Board from "./components/Board";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  const [squares, setSquares] = useState([]);
+  const [squares, setSquares] = useState(Array(9).fill("X"));
 
   const handleSquares = () => {};
 
-  return <Board squares={squares} handleSquares={handleSquares} />;
+  return (
+    <Board
+      squares={squares}
+      handleSquares={handleSquares}
+      setSquares={setSquares}
+    />
+  );
 }
 
 export default App;

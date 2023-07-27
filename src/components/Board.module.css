@@ -23,12 +23,11 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-
-  &__text {
-    display: none;
-    font-size: 5rem;
-    font-weight: bold;
-  }
+}
+.square__text {
+  display: none;
+  font-size: 5rem;
+  font-weight: bold;
 }
 
 .square:hover {
@@ -39,8 +38,8 @@ body {
   display: none;
 }
 
-.square:has(input:checked) {
-  .square__text {
-    display: block;
-  }
-} /*# sourceMappingURL=Board.module.css.map */
+.square:has(input:checked) .square__text {
+  display: block;
+}
+
+/*# sourceMappingURL=Board.module.css.map */
