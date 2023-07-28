@@ -39,8 +39,14 @@ body {
   display: none;
 }
 
+.square:has(input:checked) .square__text {
+  display: block;
+} 
+
+/* Disable checkbox after it is checked */
 .square:has(input:checked) {
-  .square__text {
-    display: block;
-  }
-} /*# sourceMappingURL=Board.module.css.map */
+  pointer-events: none;
+}
+
+
+/*# sourceMappingURL=Board.module.css.map */

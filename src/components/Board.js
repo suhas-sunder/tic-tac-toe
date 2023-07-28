@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "./Button";
-import Styles from "./Board.module.scss";
+import Styles from "./Board.module.css";
 
 function Board({ squares, handelSquares, setSquares }) {
   return (
@@ -13,7 +13,9 @@ function Board({ squares, handelSquares, setSquares }) {
               type="checkbox"
               className={Styles.checkbox}
             />
-            <span data-testid="charx_or_o" className={Styles.square__text}>{square}</span>
+            <span data-testid="charx_or_o" className={Styles.square__text}>
+              {square}
+            </span>
           </label>
         );
       })}

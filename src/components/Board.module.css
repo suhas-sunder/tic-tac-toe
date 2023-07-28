@@ -42,4 +42,9 @@ body {
   display: block;
 }
 
+/* Disable checkbox after it is checked */
+.square:has(input:checked) {
+  pointer-events: none;
+}
+
 /*# sourceMappingURL=Board.module.css.map */
