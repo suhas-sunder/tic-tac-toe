@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 function App() {
   const [squares, setSquares] = useState(Array(9).fill(""));
 
-  const handleSquares = () => {};
+  // Update 'X' for clicked or 'O' for randomly selected squares
+  const handleSquares = (squareIndex) => {
+    setSquares(
+      squares.map((value, index) => (index === squareIndex ? "X" : value))
+    );
+  };
+  
 
   return (
     <Board

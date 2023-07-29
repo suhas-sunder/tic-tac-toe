@@ -1,13 +1,14 @@
 import Styles from "./Board.module.scss";
 
-function Board({ squares, handelSquares, setSquares }) {
+function Board({ squares, handleSquares, setSquares }) {
   const handleClick = (event) => {
     // Determine the index of the clicked square
-    console.log(event.target.name.split("_").pop());
     const squareIndex = parseInt(event.target.name.split("_").pop());
 
-    setSquares(squares.map((value, index) => index === squareIndex ? "X" : value))
+    handleSquares(squareIndex);
   };
+
+  console.log(squares)
 
   return (
     <div data-testid="board" className={Styles.board}>
