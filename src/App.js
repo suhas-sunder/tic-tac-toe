@@ -2,7 +2,7 @@ import Board from "./components/Board";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [squares, setSquares] = useState(Array(9).fill("X"));
+  const [squares, setSquares] = useState(Array(9).fill(""));
 
   const handleSquares = () => {};
 
