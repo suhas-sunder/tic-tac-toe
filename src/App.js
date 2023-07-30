@@ -2,17 +2,40 @@ import Board from "./components/Board";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [squares, setSquares] = useState(Array(9).fill(""));
+  const [boardSettings, setBoardSettings] = useState({
+    playerOneLetter: "",
+    playerTwoLetter: "",
+    squares: Array(9).fill(""),
+    playerOneScore: 0,
+    playerTwoScore: 0,
+    computerScore: 0,
+    computedIndex: null,
+  });
 
   // Update 'X' for clicked or 'O' for randomly selected squares
-  const handleSquares = (squareIndex, letter) => {
-    const updatedSquaresArr = squares.map((value, index) =>
-      index === squareIndex ? letter : value
-    );
+  const handleSquares = (playerSelectIndex, letter) => {
+    const randomIndex = 5;
+
+    // Determine new board squares with X or O based on player/computer input
+    const updatedSquaresArr = boardSettings.squares.map((value, index) => {
+      if (index === playerSelectIndex) {
+        return letter;
+      } else if (index === randomIndex) {
+        return letter === "X" ? "O" : "X";
+      } else {
+        return value;
+      }
+    });
+
+    setBoardSettings((prevState) => ({
+      ...prevState,
+      squares: updatedSquaresArr,
+      computedIndex: randomIndex,
+    }));
 
     // Have it so that squares stores an objet. Within the object is an array which gets updated with both x and o before being reset.
 
-    setSquares(updatedSquaresArr);
+    //
 
     // Add logic to check if some combination (some()) exists within the array.
     // The combination is based on indexes and I need to check if all values in that index is all X or all O.
@@ -26,9 +49,9 @@ function App() {
 
   return (
     <Board
-      squares={squares}
+      squares={boardSettings.squares}
       handleSquares={handleSquares}
-      setSquares={setSquares}
+      computedIndex={boardSettings.computedIndex}
     />
   );
 }
