@@ -1,14 +1,18 @@
 import Styles from "./Board.module.scss";
+import { useState, useEffect } from "react";
 
 function Board({ squares, handleSquares, setSquares }) {
   const handleClick = (event) => {
     // Determine the index of the clicked square
     const squareIndex = parseInt(event.target.name.split("_").pop());
 
-    handleSquares(squareIndex);
+    handleSquares(squareIndex, "X");
   };
 
-  console.log(squares)
+
+  // Check if squares.length is odd and not 9 then update O on re-render.
+  // Filter out all of the indexes within this array that are falsy. Then randomly pick one to be assigned O.
+  // Pass on index to handlesquares to update array with O
 
   return (
     <div data-testid="board" className={Styles.board}>
