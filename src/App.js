@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [boardSettings, setBoardSettings] = useState({
-    playerOneLetter: "",
-    playerTwoLetter: "",
+    singlePlayer: true,
+    playerOneLetter: "X",
+    playerTwoLetter: "O",
     squares: Array(9).fill(""),
     playerOneScore: 0,
     playerTwoScore: 0,
@@ -12,26 +13,60 @@ function App() {
     computedIndex: null,
   });
 
-  // Update 'X' for clicked or 'O' for randomly selected squares
-  const handleSquares = (playerSelectIndex, letter) => {
-    const randomIndex = 5;
+  // Filter out indices of non-empty strings & return one at random
+  const handleComputerSelection = (squares) => {
+    const emptyIndices = [];
 
-    // Determine new board squares with X or O based on player/computer input
-    const updatedSquaresArr = boardSettings.squares.map((value, index) => {
-      if (index === playerSelectIndex) {
-        return letter;
-      } else if (index === randomIndex) {
-        return letter === "X" ? "O" : "X";
-      } else {
-        return value;
-      }
+    squares.forEach((square, index) => {
+      if (square === "") emptyIndices.push(index);
     });
+
+    const randomIndex = Math.floor(Math.random() * emptyIndices.length);
+
+    console.log(emptyIndices);
+    console.log(emptyIndices[randomIndex]);
+
+    return emptyIndices[randomIndex];
+  };
+
+  // Update letters/squares to be displayed on board
+  const updateSquaresArr = (squaresArr, index, letter) => {
+    return squaresArr.map((value, i) => (i === index ? letter : value));
+  };
+
+  // Update 'X' for clicked or 'O' for randomly selected squares
+  const handleSquares = (playerIndex) => {
+    let computerIndex = true;
+    let letter = boardSettings.playerOneLetter;
+
+    // Update new board squares based on player input
+    let updatedSquares = updateSquaresArr(
+      boardSettings.squares,
+      playerIndex,
+      letter
+    );
+
+    // Handle two player and single player(against computer) modes
+    if (boardSettings.singlePlayer) {
+      // Determine computer input
+      computerIndex = handleComputerSelection(updatedSquares);
+      // Update board with computed input
+      updatedSquares = updateSquaresArr(
+        updatedSquares,
+        computerIndex,
+        boardSettings.playerTwoLetter
+      );
+    } else if (boardSettings.squares.filter(Boolean).length % 2) {
+      letter = boardSettings.playerTwoLetter;
+    }
 
     setBoardSettings((prevState) => ({
       ...prevState,
-      squares: updatedSquaresArr,
-      computedIndex: randomIndex,
+      squares: updatedSquares,
+      computedIndex: computerIndex,
     }));
+
+    console.log(updatedSquares[0]);
 
     // Have it so that squares stores an objet. Within the object is an array which gets updated with both x and o before being reset.
 

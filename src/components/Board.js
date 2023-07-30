@@ -5,12 +5,12 @@ function Board({ squares, handleSquares, computedIndex }) {
     // Determine the index of the clicked square
     const squareIndex = parseInt(event.target.name.split("_").pop());
 
-    handleSquares(squareIndex, "X");
+    handleSquares(squareIndex);
   };
 
   const elements = document.getElementsByTagName("input");
 
-  computedIndex && (elements[computedIndex].checked = true);
+  (computedIndex || computedIndex === 0) && (elements[computedIndex].checked = true);
 
   // Check if squares.length is odd and not 9 then update O on re-render.
   // Filter out all of the indexes within this array that are falsy. Then randomly pick one to be assigned O.
