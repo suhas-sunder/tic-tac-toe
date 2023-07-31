@@ -12,7 +12,7 @@ body {
   align-items: center;
   grid-gap: 5px;
   grid-template-columns: repeat(3, auto);
-  background-color: black;
+  background-color: lightskyblue;
 }
 
 .square {
@@ -28,10 +28,11 @@ body {
   display: none;
   font-size: 5rem;
   font-weight: bold;
+  color: rgb(241, 141, 238);
 }
 
 .square:hover {
-  background-color: gray;
+  background-color: rgb(255, 219, 255);
 }
 
 .square input {

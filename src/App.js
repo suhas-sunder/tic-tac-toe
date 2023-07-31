@@ -15,6 +15,7 @@ function App() {
     winner: "",
     mainMenu: false,
     gameOverModal: false,
+    resetBoard: false,
   });
 
   // Filter out indices that match character values within array
@@ -63,14 +64,14 @@ function App() {
 
   // Determine if a player has won
   const handleResults = (results) => {
-    let winner = "";
+    let winningPlayer = "";
 
     const playerOneInputs = filterResultsByIndex(
       results,
       boardSettings.playerOneLetter
     );
 
-    if (isGameOver(playerOneInputs)) winner = "Player one";
+    if (isGameOver(playerOneInputs)) winningPlayer = "Player one";
 
     const playerTwoInputs = filterResultsByIndex(
       results,
@@ -79,17 +80,27 @@ function App() {
 
     if (isGameOver(playerTwoInputs))
       boardSettings.singlePlayer === true
-        ? (winner = "Computer")
-        : (winner = "Player two");
+        ? (winningPlayer = "Computer")
+        : (winningPlayer = "Player two");
 
-    if (!winner && results.join("").trim().length === 9) winner = "Draw";
+    if (!winningPlayer && results.join("").trim().length === 9)
+      winningPlayer = "Draw";
 
     // Update board settings
-    winner &&
+    winningPlayer &&
       setBoardSettings((prevState) => ({
         ...prevState,
-        winner: winner,
+        winner: winningPlayer,
         gameOverModal: true,
+        playerOneScore: winningPlayer.includes("one")
+          ? prevState.playerOneScore + 1
+          : prevState.playerOneScore,
+        playerTwoScore: winningPlayer.includes("two")
+          ? prevState.playerTwoScore + 1
+          : prevState.playerTwoScore,
+        computerScore: winningPlayer.includes("Computer")
+          ? prevState.computerScore + 1
+          : prevState.computerScore,
       }));
   };
 
@@ -124,6 +135,7 @@ function App() {
       ...prevState,
       squares: updatedSquares,
       computedIndex: computerIndex,
+      resetBoard: false,
     }));
 
     // Check if game is over & determine winner
@@ -140,13 +152,26 @@ function App() {
     // Add colour preset options for custom styling
   };
 
+  const handleReplay = () => {
+    // Close modal & restart game
+    setBoardSettings((prevState) => ({
+      ...prevState,
+      gameOverModal: false,
+      squares: Array(9).fill(""),
+      resetBoard: true,
+    }));
+  };
+
   return (
     <>
-      {/* {boardSettings.gameOverModal && <GameOverModal />} */}
+      {boardSettings.gameOverModal && (
+        <GameOverModal settings={boardSettings} handleReplay={handleReplay} />
+      )}
       <Board
         squares={boardSettings.squares}
         handleSquares={handleSquares}
         computedIndex={boardSettings.computedIndex}
+        resetGame={boardSettings.resetBoard}
       />
     </>
   );
