@@ -11,20 +11,27 @@ function App() {
     playerTwoScore: 0,
     computerScore: 0,
     computedIndex: null,
+    winner: "",
+    mainMenu: false,
+    gameOver: false,
   });
+
+  // Filter out indices that match character values within array
+  const filterResultsByIndex = (results, char) => {
+    const filteredIndices = [];
+
+    results.forEach((result, index) => {
+      if (result === char) filteredIndices.push(index);
+    });
+
+    return filteredIndices;
+  };
 
   // Filter out indices of non-empty strings & return one at random
   const handleComputerSelection = (squares) => {
-    const emptyIndices = [];
-
-    squares.forEach((square, index) => {
-      if (square === "") emptyIndices.push(index);
-    });
+    const emptyIndices = filterResultsByIndex(squares, "");
 
     const randomIndex = Math.floor(Math.random() * emptyIndices.length);
-
-    console.log(emptyIndices);
-    console.log(emptyIndices[randomIndex]);
 
     return emptyIndices[randomIndex];
   };
@@ -34,12 +41,61 @@ function App() {
     return squaresArr.map((value, i) => (i === index ? letter : value));
   };
 
+  // Check if game is over
+  const isGameOver = (playerInputs) => {
+    const winningCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+    ];
+
+    // Determine if atleast some winning combination exists in player inputs
+    return winningCombinations.some((subArr) => {
+      return subArr.every((index) => playerInputs.includes(index));
+    });
+  };
+
+  // Determine if a player has won
+  const handleResults = (results) => {
+    let winner = "";
+
+    const playerOneInputs = filterResultsByIndex(
+      results,
+      boardSettings.playerOneLetter
+    );
+
+    if (isGameOver(playerOneInputs)) winner = "Player one";
+
+    const playerTwoInputs = filterResultsByIndex(
+      results,
+      boardSettings.playerTwoLetter
+    );
+
+    if (isGameOver(playerTwoInputs))
+      boardSettings.singlePlayer === true
+        ? (winner = "Computer")
+        : (winner = "Player two");
+
+    // Update board settings
+    winner &&
+      setBoardSettings((prevState) => ({
+        ...prevState,
+        winner: winner,
+        gameOver: true,
+      }));
+  };
+
   // Update 'X' for clicked or 'O' for randomly selected squares
   const handleSquares = (playerIndex) => {
     let computerIndex = true;
     let letter = boardSettings.playerOneLetter;
 
-    // Update new board squares based on player input
+    // Update board with player input
     let updatedSquares = updateSquaresArr(
       boardSettings.squares,
       playerIndex,
@@ -60,29 +116,29 @@ function App() {
       letter = boardSettings.playerTwoLetter;
     }
 
+    // Update board settings
     setBoardSettings((prevState) => ({
       ...prevState,
       squares: updatedSquares,
       computedIndex: computerIndex,
     }));
 
-    console.log(updatedSquares[0]);
+    // Check if game is over & determine winner
+    handleResults(updatedSquares);
 
-    // Have it so that squares stores an objet. Within the object is an array which gets updated with both x and o before being reset.
-
-    //
-
-    // Add logic to check if some combination (some()) exists within the array.
+    // Add logic to check if some combination (some()) exists within the array to handle game over.
     // The combination is based on indexes and I need to check if all values in that index is all X or all O.
     // Then display the result.
     // Add play again functionality.
     // Add player scores.
-    // Add option to switch from computer player to two player.
-    // Add note that this computer is not very smart. It will select O's at random.
-    // Allow player 1 to choose X or O, and assign accordingly.
+    // Add a main menu and add player options: single/two player
+    // Display text indicating player choice of "X" and "O"
+    // Add styling to differentiate which player is active based on colour
+    // Add colour preset options for custom styling
   };
 
   return (
+    // Add menu component that handles both main menu and game over states
     <Board
       squares={boardSettings.squares}
       handleSquares={handleSquares}
