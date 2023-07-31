@@ -1,4 +1,5 @@
 import Styles from "./GameOverModal.module.scss";
+import Button from "./UI/Button";
 
 function GameOverModal({ settings, handleReplay }) {
   const { winner, playerOneScore, playerTwoScore, computerScore } = settings;
@@ -21,20 +22,8 @@ function GameOverModal({ settings, handleReplay }) {
           <li className={Styles.score}>P2: {playerTwoScore}</li>
           <li className={Styles.score}>AI: {computerScore}</li>
         </ul>
-        <button
-          aria-label="play again"
-          className={Styles.btn}
-          onClick={handleClick}
-        >
-          Play Again
-        </button>
-        <button
-          aria-label="play again"
-          className={Styles.btn}
-          onClick={handleClick}
-        >
-          Main Menu
-        </button>
+        <Button onClick={handleClick} text={"Play Again"} />
+        <Button onClick={handleClick} text={"Main Menu"} />
       </div>
     </div>
   );

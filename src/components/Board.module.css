@@ -12,7 +12,7 @@ body {
   align-items: center;
   grid-gap: 5px;
   grid-template-columns: repeat(3, auto);
-  background-color: lightskyblue;
+  background-color: rgb(67, 145, 194);
 }
 
 .square {
@@ -28,11 +28,11 @@ body {
   display: none;
   font-size: 5rem;
   font-weight: bold;
-  color: rgb(241, 141, 238);
+  color: rgb(67, 145, 194);
 }
 
 .square:hover {
-  background-color: rgb(255, 219, 255);
+  background-color: skyblue;
 }
 
 .square input {
@@ -46,6 +46,12 @@ body {
 /* Disable checkbox after it is checked */
 .square:has(input:checked) {
   pointer-events: none;
+}
+
+.btns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 /*# sourceMappingURL=Board.module.css.map */

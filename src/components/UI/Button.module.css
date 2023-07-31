@@ -1,0 +1,17 @@
+.btn {
+  background-color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  color: rgb(67, 145, 194);
+  margin-top: 2.5rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background-color: rgb(67, 145, 194);
+  color: white;
+  cursor: pointer;
+}/*# sourceMappingURL=Button.module.css.map */
