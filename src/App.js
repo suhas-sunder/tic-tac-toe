@@ -79,7 +79,7 @@ function App() {
       boardSettings.playerTwoLetter
     );
 
-    if (isGameOver(playerTwoInputs))
+    if (!winningPlayer && isGameOver(playerTwoInputs))
       boardSettings.singlePlayer === true
         ? (winningPlayer = "Computer")
         : (winningPlayer = "Player two");
