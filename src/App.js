@@ -172,6 +172,8 @@ function App() {
         handleSquares={handleSquares}
         computedIndex={boardSettings.computedIndex}
         resetGame={boardSettings.resetBoard}
+        displayTurns={!boardSettings.singlePlayer}
+        handleRestart={handleReplay}
       />
     </>
   );

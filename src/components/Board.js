@@ -1,6 +1,13 @@
 import Styles from "./Board.module.scss";
 
-function Board({ squares, handleSquares, computedIndex, resetGame }) {
+function Board({
+  squares,
+  handleSquares,
+  computedIndex,
+  resetGame,
+  displayTurns,
+  handleRestart
+}) {
   const handleClick = (event) => {
     // Determine the index of the clicked square
     const squareIndex = parseInt(event.target.name.split("_").pop());
@@ -22,23 +29,30 @@ function Board({ squares, handleSquares, computedIndex, resetGame }) {
   }
 
   return (
-    <div data-testid="board" className={Styles.board}>
-      {squares.map((square, index) => {
-        return (
-          <label key={index} className={Styles.square}>
-            <input
-              onClick={handleClick}
-              name={`square_${index}`}
-              type="checkbox"
-              className={Styles.checkbox}
-            />
-            <span data-testid="charx_or_o" className={Styles.square__text}>
-              {square}
-            </span>
-          </label>
-        );
-      })}
-    </div>
+    <>
+      {displayTurns && <p className={Styles.text}>Turn: Player One</p>}
+      <div data-testid="board" className={Styles.board}>
+        {squares.map((square, index) => {
+          return (
+            <label key={index} className={Styles.square}>
+              <input
+                onClick={handleClick}
+                name={`square_${index}`}
+                type="checkbox"
+                className={Styles.checkbox}
+              />
+              <span data-testid="charx_or_o" className={Styles.square__text}>
+                {square}
+              </span>
+            </label>
+          );
+        })}
+      </div>
+      <div className={Styles.btns}>
+        <button className={Styles.btn} onClick={handleRestart}>Restart</button>
+        <button className={Styles.btn}>Main Menu</button>
+      </div>
+    </>
   );
 }
 

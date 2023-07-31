@@ -47,16 +47,17 @@
   margin-bottom: 2rem;
 }
 
-.replay {
+.btn {
   background-color: white;
   border: none;
   padding: 1rem 3rem;
   border-radius: 5px;
   font-size: 1.5rem;
   color: rgb(16, 97, 129);
+  margin-bottom: 2rem;
 }
 
-.replay:hover {
+.btn:hover {
   background-color: rgb(16, 97, 129);
   color: white;
   cursor: pointer;

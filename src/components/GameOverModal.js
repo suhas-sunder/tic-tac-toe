@@ -23,11 +23,17 @@ function GameOverModal({ settings, handleReplay }) {
         </ul>
         <button
           aria-label="play again"
-          id="restartButton"
-          className={Styles.replay}
+          className={Styles.btn}
           onClick={handleClick}
         >
-          Play Again!
+          Play Again
+        </button>
+        <button
+          aria-label="play again"
+          className={Styles.btn}
+          onClick={handleClick}
+        >
+          Main Menu
         </button>
       </div>
     </div>
