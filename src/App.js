@@ -14,9 +14,10 @@ function App() {
     computerScore: 0,
     computedIndex: null,
     winner: "",
-    mainMenu: false,
+    mainMenu: true,
     gameOverModal: false,
     resetBoard: false,
+    resetScore: false,
   });
 
   // Filter out indices that match character values within array
@@ -150,12 +151,22 @@ function App() {
       gameOverModal: false,
       squares: Array(9).fill(""),
       resetBoard: true,
+      mainMenu: false,
     }));
   };
 
+  const handleReset = () => {};
+
   return (
     <>
-      {boardSettings.mainMenu && <MainMenu />}
+      {/* If boardSettings.resetScore display modal asking for confirmation to reset score with option to reset or cancel. */}
+      {boardSettings.mainMenu && (
+        <MainMenu
+          startGame={handleReplay}
+          settings={boardSettings}
+          resetScore={handleReset}
+        />
+      )}
       {boardSettings.gameOverModal && (
         <GameOverModal settings={boardSettings} handleReplay={handleReplay} />
       )}
