@@ -15,6 +15,14 @@ body {
   background-color: rgb(67, 145, 194);
 }
 
+.players {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: rgb(38, 117, 165);
+}
+
 .square {
   display: flex;
   background-color: white;

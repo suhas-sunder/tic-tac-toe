@@ -4,18 +4,31 @@ import Score from "./UI/Score";
 import Styles from "./MainMenu.module.scss";
 
 function MainMenu({ settings, startGame, resetScore }) {
-  
+  const handleGameMode = () => {
+    const labelElements = document.getElementsByTagName("input");
+
+    for (let element of labelElements) {
+      if (element.id.includes("multiplayer") && element.checked) {
+        // Start game in multiplayer mode
+        return startGame(false);
+      }
+    }
+
+    // Set default to single player
+    startGame(true);
+  };
+
   return (
     <div className={Styles.menu}>
       <h1 className={Styles.heading}>Tic Tac Toe</h1>
-      <Score settings={settings}/>
+      <Score settings={settings} />
       <div className={Styles.radio}>
-        <input name="gamemode" type="radio" checked />
-        <label htmlFor="gamemode">Singleplayer</label>
-        <input name="gamemode" type="radio" />
-        <label>Multiplayer</label>
+        <input id="singleplayer" name="gamemode" type="radio" defaultChecked />
+        <label htmlFor="singleplayer">Singleplayer</label>
+        <input id="multiplayer" name="gamemode" type="radio" />
+        <label htmlFor="multiplayer">Multiplayer</label>
       </div>
-      <Button onClick={startGame} text="Start game" />
+      <Button onClick={handleGameMode} text="Start game" />
       <Button onClick={resetScore} text="Reset score" />
     </div>
   );

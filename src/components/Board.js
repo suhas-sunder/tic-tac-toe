@@ -2,13 +2,19 @@ import Styles from "./Board.module.scss";
 import Button from "./UI/Button";
 
 function Board({
-  squares,
+  settings,
   handleSquares,
-  computedIndex,
   resetGame,
-  displayTurns,
   handleRestart,
+  showMainMenu,
 }) {
+  const {
+    squares,
+    computedIndex,
+    singlePlayer,
+    playerOneLetter,
+    playerTwoLetter,
+  } = settings;
   const handleClick = (event) => {
     // Determine the index of the clicked square
     const squareIndex = parseInt(event.target.name.split("_").pop());
@@ -20,8 +26,7 @@ function Board({
   // Replace this with useRef hook to access element & target index value in name property
   const elements = document.getElementsByTagName("input");
 
-  (computedIndex || computedIndex === 0) &&
-    (elements[computedIndex].checked = true);
+  if (computedIndex !== null) elements[computedIndex].checked = true;
 
   if (resetGame) {
     for (let element of elements) {
@@ -31,7 +36,19 @@ function Board({
 
   return (
     <>
-      {displayTurns && <p className={Styles.text}>Turn: Player One</p>}
+      {!singlePlayer && (
+        <div className={Styles.players}>
+          <p className={Styles.text}>Player One: "{playerOneLetter}"</p>
+          <p className={Styles.text}>Player Two: "{playerTwoLetter}"</p>
+        </div>
+      )}
+
+      {singlePlayer && (
+        <div className={Styles.players}>
+          <p className={Styles.text}>Player: "{playerOneLetter}"</p>
+          <p className={Styles.text}>Computer: "{playerTwoLetter}"</p>
+        </div>
+      )}
       <div data-testid="board" className={Styles.board}>
         {squares.map((square, index) => {
           return (
@@ -50,8 +67,8 @@ function Board({
         })}
       </div>
       <div className={Styles.btns}>
-        <Button onClick={handleRestart} text={"Restart"} />
-        <Button onClick={handleRestart} text={"Main Menu"} />
+        <Button onClick={() => handleRestart(singlePlayer)} text={"Restart"} />
+        <Button onClick={showMainMenu} text={"Main Menu"} />
       </div>
     </>
   );

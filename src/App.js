@@ -94,6 +94,7 @@ function App() {
         ...prevState,
         winner: winningPlayer,
         gameOverModal: true,
+        computedIndex: null,
         playerOneScore: winningPlayer.includes("one")
           ? prevState.playerOneScore + 1
           : prevState.playerOneScore,
@@ -108,8 +109,13 @@ function App() {
 
   // Update 'X' for clicked or 'O' for randomly selected squares
   const handleSquares = (playerIndex) => {
-    let computerIndex = true;
+    let computerIndex = null;
     let letter = boardSettings.playerOneLetter;
+
+    // If game is in muliplayer mode and it's the second players turn, switch letters
+    if ((boardSettings.squares.filter(Boolean).length + 1) % 2 === 0 && !boardSettings.singlePlayer) {
+      letter = boardSettings.playerTwoLetter;
+    }
 
     // Update board with player input
     let updatedSquares = updateSquaresArr(
@@ -128,9 +134,7 @@ function App() {
         computerIndex,
         boardSettings.playerTwoLetter
       );
-    } else if (boardSettings.squares.filter(Boolean).length % 2) {
-      letter = boardSettings.playerTwoLetter;
-    }
+    } 
 
     // Update board settings
     setBoardSettings((prevState) => ({
@@ -144,7 +148,8 @@ function App() {
     handleResults(updatedSquares);
   };
 
-  const handleReplay = () => {
+  const handleReplay = (singleplayerMode) => {
+    console.log(singleplayerMode);
     // Close modal & restart game
     setBoardSettings((prevState) => ({
       ...prevState,
@@ -152,10 +157,20 @@ function App() {
       squares: Array(9).fill(""),
       resetBoard: true,
       mainMenu: false,
+      computedIndex: null,
+      singlePlayer: singleplayerMode ? true : false,
     }));
   };
 
-  const handleReset = () => {};
+  const handleScoreReset = () => {};
+
+  const handleMainMenu = () => {
+    setBoardSettings((prevState) => ({
+      ...prevState,
+      mainMenu: true,
+      gameOverModal: false,
+    }));
+  };
 
   return (
     <>
@@ -164,20 +179,26 @@ function App() {
         <MainMenu
           startGame={handleReplay}
           settings={boardSettings}
-          resetScore={handleReset}
+          resetScore={handleScoreReset}
         />
       )}
       {boardSettings.gameOverModal && (
-        <GameOverModal settings={boardSettings} handleReplay={handleReplay} />
+        <GameOverModal
+          settings={boardSettings}
+          handleReplay={handleReplay}
+          showMainMenu={handleMainMenu}
+        />
       )}
       {!boardSettings.mainMenu && (
         <Board
+        settings = {boardSettings}
           squares={boardSettings.squares}
-          handleSquares={handleSquares}
           computedIndex={boardSettings.computedIndex}
           resetGame={boardSettings.resetBoard}
-          displayTurns={!boardSettings.singlePlayer}
+          singlePlayerMode={boardSettings.singlePlayer}
+          handleSquares={handleSquares}
           handleRestart={handleReplay}
+          showMainMenu={handleMainMenu}
         />
       )}
     </>
