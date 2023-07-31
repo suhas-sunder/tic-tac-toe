@@ -51,25 +51,10 @@ body {
 
 .btns {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
 }
 
-.btn {
-  background-color: white;
-  border: none;
-  padding: 1rem;
-  border-radius: 5px;
-  font-size: 1.3rem;
-  color: rgb(67, 145, 194);
-  margin-top: 4rem;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
 
-.btn:hover {
-  background-color: rgb(67, 145, 194);
-  color: white;
-  cursor: pointer;
-}
 
 /*# sourceMappingURL=Board.module.css.map */

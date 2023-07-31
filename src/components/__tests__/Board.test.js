@@ -1,6 +1,6 @@
 import { screen, render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Board from "../Board";
+import Board from "../main/Board";
 import Styles from "./Board.module.scss";
 
 describe("Check renders and display", () => {

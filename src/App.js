@@ -1,6 +1,7 @@
 import Board from "./components/Board";
 import { useState, useEffect } from "react";
 import GameOverModal from "./components/GameOverModal";
+import MainMenu from "./components/MainMenu";
 
 function App() {
   const [boardSettings, setBoardSettings] = useState({
@@ -140,16 +141,6 @@ function App() {
 
     // Check if game is over & determine winner
     handleResults(updatedSquares);
-
-    // Add logic to check if some combination (some()) exists within the array to handle game over.
-    // The combination is based on indexes and I need to check if all values in that index is all X or all O.
-    // Then display the result.
-    // Add play again functionality.
-    // Add player scores.
-    // Add a main menu and add player options: single/two player
-    // Display text indicating player choice of "X" and "O"
-    // Add styling to differentiate which player is active based on colour
-    // Add colour preset options for custom styling
   };
 
   const handleReplay = () => {
@@ -164,17 +155,20 @@ function App() {
 
   return (
     <>
+      {boardSettings.mainMenu && <MainMenu />}
       {boardSettings.gameOverModal && (
         <GameOverModal settings={boardSettings} handleReplay={handleReplay} />
       )}
-      <Board
-        squares={boardSettings.squares}
-        handleSquares={handleSquares}
-        computedIndex={boardSettings.computedIndex}
-        resetGame={boardSettings.resetBoard}
-        displayTurns={!boardSettings.singlePlayer}
-        handleRestart={handleReplay}
-      />
+      {!boardSettings.mainMenu && (
+        <Board
+          squares={boardSettings.squares}
+          handleSquares={handleSquares}
+          computedIndex={boardSettings.computedIndex}
+          resetGame={boardSettings.resetBoard}
+          displayTurns={!boardSettings.singlePlayer}
+          handleRestart={handleReplay}
+        />
+      )}
     </>
   );
 }

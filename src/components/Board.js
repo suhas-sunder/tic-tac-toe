@@ -1,4 +1,5 @@
 import Styles from "./Board.module.scss";
+import Button from "./UI/Button";
 
 function Board({
   squares,
@@ -6,7 +7,7 @@ function Board({
   computedIndex,
   resetGame,
   displayTurns,
-  handleRestart
+  handleRestart,
 }) {
   const handleClick = (event) => {
     // Determine the index of the clicked square
@@ -49,8 +50,8 @@ function Board({
         })}
       </div>
       <div className={Styles.btns}>
-        <button className={Styles.btn} onClick={handleRestart}>Restart</button>
-        <button className={Styles.btn}>Main Menu</button>
+        <Button onClick={handleRestart} text={"Restart"} />
+        <Button onClick={handleRestart} text={"Main Menu"} />
       </div>
     </>
   );
