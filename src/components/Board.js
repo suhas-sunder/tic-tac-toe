@@ -8,13 +8,13 @@ function Board({ squares, handleSquares, computedIndex }) {
     handleSquares(squareIndex);
   };
 
+
+  // For single player mode, manually toggle checkbox for computer selected input
+  // Replace this with useRef hook to access element & target index value in name property
   const elements = document.getElementsByTagName("input");
 
-  (computedIndex || computedIndex === 0) && (elements[computedIndex].checked = true);
-
-  // Check if squares.length is odd and not 9 then update O on re-render.
-  // Filter out all of the indexes within this array that are falsy. Then randomly pick one to be assigned O.
-  // Pass on index to handlesquares to update array with O
+  (computedIndex || computedIndex === 0) &&
+    (elements[computedIndex].checked = true);
 
   return (
     <div data-testid="board" className={Styles.board}>
