@@ -1,5 +1,6 @@
 import Board from "./components/Board";
 import { useState, useEffect } from "react";
+import GameOverModal from "./components/GameOverModal";
 
 function App() {
   const [boardSettings, setBoardSettings] = useState({
@@ -13,7 +14,7 @@ function App() {
     computedIndex: null,
     winner: "",
     mainMenu: false,
-    gameOver: false,
+    gameOverModal: false,
   });
 
   // Filter out indices that match character values within array
@@ -81,12 +82,14 @@ function App() {
         ? (winner = "Computer")
         : (winner = "Player two");
 
+    if (!winner && results.join("").trim().length === 9) winner = "Draw";
+
     // Update board settings
     winner &&
       setBoardSettings((prevState) => ({
         ...prevState,
         winner: winner,
-        gameOver: true,
+        gameOverModal: true,
       }));
   };
 
@@ -138,12 +141,14 @@ function App() {
   };
 
   return (
-    // Add menu component that handles both main menu and game over states
-    <Board
-      squares={boardSettings.squares}
-      handleSquares={handleSquares}
-      computedIndex={boardSettings.computedIndex}
-    />
+    <>
+      {/* {boardSettings.gameOverModal && <GameOverModal />} */}
+      <Board
+        squares={boardSettings.squares}
+        handleSquares={handleSquares}
+        computedIndex={boardSettings.computedIndex}
+      />
+    </>
   );
 }
 
