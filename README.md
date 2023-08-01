@@ -1,6 +1,8 @@
 # Tic-Tac-Toe
  Tic Tac Toe React project for practice. This project was created using create-react-app. 
 
+ The game has options for single player and multiplayer. Scores are stored using local storage and can be reset from main menu.
+
 Main menu:
 
 <img width="616" alt="image" src="https://github.com/suhas-sunder/tic-tac-toe/assets/77464593/2890d3ab-6748-498a-8cd6-5ede2cb41fd6">
