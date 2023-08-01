@@ -13,7 +13,6 @@ Game over menu:
 
 <img width="682" alt="image" src="https://github.com/suhas-sunder/tic-tac-toe/assets/77464593/69bb82cd-405b-4735-87d2-91c8dce03e4c">
 
-To run this game, use npm start in the command line interface of your IDE.
 
 
 
