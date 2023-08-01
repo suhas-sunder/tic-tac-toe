@@ -204,6 +204,8 @@ function App() {
       resetScore: !prevState.resetScore,
     }));
 
+    console.log("test");
+
     resetConfirmed &&
       setScores({ playerOneScore: 0, playerTwoScore: 0, computerScore: 0 });
   };
@@ -219,7 +221,7 @@ function App() {
   return (
     <>
       {boardSettings.resetScore && (
-        <ConfirmationModal resetScore={handleScoreReset} />
+        <ConfirmationModal confirmAction={handleScoreReset} />
       )}
       {boardSettings.mainMenu && (
         <MainMenu
