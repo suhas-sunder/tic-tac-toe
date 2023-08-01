@@ -2,6 +2,7 @@ import Board from "./components/Board";
 import { useState, useEffect } from "react";
 import GameOverModal from "./components/GameOverModal";
 import MainMenu from "./components/MainMenu";
+import ConfirmationModal from "./components/UI/ConfirmationModal";
 
 function App() {
   const [boardSettings, setBoardSettings] = useState({
@@ -9,16 +10,42 @@ function App() {
     playerOneLetter: "X",
     playerTwoLetter: "O",
     squares: Array(9).fill(""),
-    playerOneScore: 0,
-    playerTwoScore: 0,
-    computerScore: 0,
     computedIndex: null,
     winner: "",
     mainMenu: true,
     gameOverModal: false,
     resetBoard: false,
     resetScore: false,
+    didRender: false,
   });
+
+  const [scores, setScores] = useState({
+    playerOneScore: 0,
+    playerTwoScore: 0,
+    computerScore: 0,
+  });
+
+  // Get locally stored scores
+  useEffect(() => {
+    const data = localStorage.getItem("scores");
+    if (data) {
+      setScores(JSON.parse(data));
+      console.log(JSON.parse(data), scores);
+    }
+
+    // Keep track of initial render
+    setBoardSettings((prevState) => ({
+      ...prevState,
+      didRender: true,
+    }));
+  }, []);
+
+  // Save scores to local storage
+  useEffect(() => {
+    // Do not update until component renders & state is updated atleast once otherwise local storage gets reset (due to strict mode rendering component twice)
+    boardSettings.didRender &&
+      localStorage.setItem("scores", JSON.stringify(scores));
+  }, [scores]);
 
   // Filter out indices that match character values within array
   const filterResultsByIndex = (results, char) => {
@@ -81,7 +108,7 @@ function App() {
     );
 
     if (!winningPlayer && isGameOver(playerTwoInputs))
-      boardSettings.singlePlayer === true
+      boardSettings.singlePlayer
         ? (winningPlayer = "Computer")
         : (winningPlayer = "Player two");
 
@@ -95,6 +122,12 @@ function App() {
         winner: winningPlayer,
         gameOverModal: true,
         computedIndex: null,
+      }));
+
+    // Update scores
+    winningPlayer &&
+      setScores((prevState) => ({
+        ...prevState,
         playerOneScore: winningPlayer.includes("one")
           ? prevState.playerOneScore + 1
           : prevState.playerOneScore,
@@ -113,7 +146,10 @@ function App() {
     let letter = boardSettings.playerOneLetter;
 
     // If game is in muliplayer mode and it's the second players turn, switch letters
-    if ((boardSettings.squares.filter(Boolean).length + 1) % 2 === 0 && !boardSettings.singlePlayer) {
+    if (
+      (boardSettings.squares.filter(Boolean).length + 1) % 2 === 0 &&
+      !boardSettings.singlePlayer
+    ) {
       letter = boardSettings.playerTwoLetter;
     }
 
@@ -134,7 +170,7 @@ function App() {
         computerIndex,
         boardSettings.playerTwoLetter
       );
-    } 
+    }
 
     // Update board settings
     setBoardSettings((prevState) => ({
@@ -162,7 +198,15 @@ function App() {
     }));
   };
 
-  const handleScoreReset = () => {};
+  const handleScoreReset = (resetConfirmed) => {
+    setBoardSettings((prevState) => ({
+      ...prevState,
+      resetScore: !prevState.resetScore,
+    }));
+
+    resetConfirmed &&
+      setScores({ playerOneScore: 0, playerTwoScore: 0, computerScore: 0 });
+  };
 
   const handleMainMenu = () => {
     setBoardSettings((prevState) => ({
@@ -174,9 +218,12 @@ function App() {
 
   return (
     <>
-      {/* If boardSettings.resetScore display modal asking for confirmation to reset score with option to reset or cancel. */}
+      {boardSettings.resetScore && (
+        <ConfirmationModal resetScore={handleScoreReset} />
+      )}
       {boardSettings.mainMenu && (
         <MainMenu
+          scores={scores}
           startGame={handleReplay}
           settings={boardSettings}
           resetScore={handleScoreReset}
@@ -184,6 +231,7 @@ function App() {
       )}
       {boardSettings.gameOverModal && (
         <GameOverModal
+          scores={scores}
           settings={boardSettings}
           handleReplay={handleReplay}
           showMainMenu={handleMainMenu}
@@ -191,7 +239,7 @@ function App() {
       )}
       {!boardSettings.mainMenu && (
         <Board
-        settings = {boardSettings}
+          settings={boardSettings}
           squares={boardSettings.squares}
           computedIndex={boardSettings.computedIndex}
           resetGame={boardSettings.resetBoard}

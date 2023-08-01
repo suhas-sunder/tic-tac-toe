@@ -1,8 +1,8 @@
 import React from "react";
 import Styles from "./Score.module.scss";
 
-function Score({ settings }) {
-  const { playerOneScore, playerTwoScore, computerScore } = settings;
+function Score({ scores }) {
+  const { playerOneScore, playerTwoScore, computerScore } = scores;
   return (
     <>
       <p className={Styles.title}>Player Score</p>

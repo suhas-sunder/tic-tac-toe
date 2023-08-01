@@ -3,7 +3,7 @@ import Button from "./UI/Button";
 import Score from "./UI/Score";
 import Styles from "./MainMenu.module.scss";
 
-function MainMenu({ settings, startGame, resetScore }) {
+function MainMenu({ settings, scores, startGame, resetScore }) {
   const handleGameMode = () => {
     const labelElements = document.getElementsByTagName("input");
 
@@ -21,7 +21,7 @@ function MainMenu({ settings, startGame, resetScore }) {
   return (
     <div className={Styles.menu}>
       <h1 className={Styles.heading}>Tic Tac Toe</h1>
-      <Score settings={settings} />
+      <Score scores={scores} />
       <div className={Styles.radio}>
         <input id="singleplayer" name="gamemode" type="radio" defaultChecked />
         <label htmlFor="singleplayer">Singleplayer</label>
@@ -29,7 +29,7 @@ function MainMenu({ settings, startGame, resetScore }) {
         <label htmlFor="multiplayer">Multiplayer</label>
       </div>
       <Button onClick={handleGameMode} text="Start game" />
-      <Button onClick={resetScore} text="Reset score" />
+      <Button onClick={() => resetScore(false)} text="Reset score" />
     </div>
   );
 }

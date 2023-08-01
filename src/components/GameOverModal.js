@@ -2,7 +2,7 @@ import Styles from "./GameOverModal.module.scss";
 import Button from "./UI/Button";
 import Score from "./UI/Score";
 
-function GameOverModal({ settings, handleReplay, showMainMenu }) {
+function GameOverModal({ settings, scores, handleReplay, showMainMenu }) {
   const handleClick = () => {
     handleReplay(settings.singlePlayer);
   };
@@ -15,7 +15,7 @@ function GameOverModal({ settings, handleReplay, showMainMenu }) {
         <div className={Styles.winner}>{settings.winner} Wins!</div>
       )}
       <div className={Styles.menu}>
-        <Score settings={settings} />
+        <Score scores={scores} />
         <Button onClick={handleClick} text={"Play Again"} />
         <Button onClick={showMainMenu} text={"Main Menu"} />
       </div>
